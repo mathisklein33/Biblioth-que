@@ -1,0 +1,14 @@
+# Dossiers d'IDE
+.idea/
+.vscode/
+
+# Fichiers temporaires
+*.log
+*.tmp
+
+# Cache PHP
+vendor/
+composer.lock
+
+# Autres
+node_modules/
