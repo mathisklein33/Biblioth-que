@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
+use ExemplaireLivre;
+use Livre;
+
 interface LoggerInterface
 {
     public function info(string $message): void;
@@ -15,9 +18,9 @@ class Bibliotheque
 
     private array $exemplaires = [];
 
-    private LoggerInterface $logger;
+    private \LoggerInterface $logger;
 
-    public function __construct(string $nom, LoggerInterface $logger)
+    public function __construct(string $nom, \LoggerInterface $logger)
     {
         $this->nom = $nom;
         $this->logger = $logger;

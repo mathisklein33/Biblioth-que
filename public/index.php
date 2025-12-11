@@ -3,8 +3,6 @@
 
 require_once 'autoload.php';
 
-use App\Auteur;
-use App\Livre;
 use App\Bibliotheque;
 
 $livre1 = new Livre("1984", new Auteur("George Orwell"));

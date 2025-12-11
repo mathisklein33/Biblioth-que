@@ -1,6 +1,5 @@
 <?php
 
-namespace App;
 
 enum CategorieFixe: string
 {

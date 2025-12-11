@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App;
 
 
-class Utilisateur extends Personne
+class Utilisateur extends \App\Personne
 {
-    use LoggerTrait;
+    use \LoggerTrait;
 
     private string $email;
 
 
     private array $emprunts = [];
 
-    public function __construct(string $nom, string $email, LoggerInterface $logger)
+    public function __construct(string $nom, string $email, \LoggerInterface $logger)
     {
-        parent::__construct($nom);
+        \App\Personne::__construct($nom);
         $this->email = $email;
         $this->setLogger($logger);
     }
@@ -39,16 +38,16 @@ class Utilisateur extends Personne
     }
 
 
-    public function ajouterEmprunt(Emprunt $emprunt): void
+    public function ajouterEmprunt(\App\Emprunt $emprunt): void
     {
         $this->emprunts[] = $emprunt;
     }
 
 
-    public function emprunter(ExemplaireLivre $exemplaire, Bibliotheque $bibliotheque): void
+    public function emprunter(\ExemplaireLivre $exemplaire, \App\Bibliotheque $bibliotheque): void
     {
         if (! $exemplaire->estDisponible()) {
-            throw new AucunExemplaireDisponibleException(
+            throw new \App\AucunExemplaireDisponibleException(
                 sprintf(
                     'Aucun exemplaire disponible pour le livre "%s".',
                     $exemplaire->getLivre()->getTitre()
@@ -59,7 +58,7 @@ class Utilisateur extends Personne
 
         $exemplaire->marquerEmprunte();
 
-        $emprunt = new Emprunt($this, $exemplaire, new \DateTimeImmutable());
+        $emprunt = new \App\Emprunt($this, $exemplaire, new \DateTimeImmutable());
         $this->ajouterEmprunt($emprunt);
 
         $this->getLogger()->log(sprintf(
