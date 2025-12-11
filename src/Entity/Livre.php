@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App;
 
 class Livre
 {
     private string $titre;
     private Auteur $auteur;
-    private Catégorie $catégorie;
+    private \App\Catégorie $catégorie;
 
     private ?int $anneePublication = null;
 
     private static int $compteur = 0;
 
-    public function __construct(string $titre, Auteur $auteur, Catégorie $catégorie)
+    public function __construct(string $titre, Auteur $auteur, \App\Catégorie $catégorie)
     {
         $this->titre = $titre;
         $this->auteur = $auteur;
@@ -44,12 +43,12 @@ class Livre
         $this->auteur = $auteur;
     }
 
-    public function getCategorie(): Catégorie
+    public function getCategorie(): \App\Catégorie
     {
         return $this->catégorie;
     }
 
-    public function setCategorie(Catégorie $catégorie): void
+    public function setCategorie(\App\Catégorie $catégorie): void
     {
         $this->catégorie = $catégorie;
     }
@@ -81,7 +80,7 @@ class Livre
         return self::$compteur;
     }
 
-    public static function create(string $titre, Auteur $auteur, Catégorie $catégorie): self
+    public static function create(string $titre, Auteur $auteur, \App\Catégorie $catégorie): self
     {
         return new self($titre, $auteur, $catégorie);
     }
