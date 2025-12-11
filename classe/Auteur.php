@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-class Auteur
+abstract class Auteur
 {
-    private string $nom;
+    protected string $nom;
 
     public function __construct(string $nom)
     {
