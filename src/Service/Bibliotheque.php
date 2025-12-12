@@ -4,46 +4,26 @@ declare(strict_types=1);
 
 namespace App;
 
-use ExemplaireLivre;
-use Livre;
-
-interface LoggerInterface
-{
-    public function info(string $message): void;
-}
-
 class Bibliotheque
 {
     private string $nom;
 
+    /** @var ExemplaireLivre[] */
     private array $exemplaires = [];
 
-    private \LoggerInterface $logger;
+    private LoggerInterface $logger;
 
-    public function __construct(string $nom, \LoggerInterface $logger)
+    public function __construct(string $nom, LoggerInterface $logger)
     {
         $this->nom = $nom;
         $this->logger = $logger;
     }
 
-    public function getNom(): string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): void
-    {
-        $this->nom = $nom;
-    }
-
-    public function getExemplaires(): array
-    {
-        return $this->exemplaires;
-    }
-
     public function ajouterLivre(Livre $livre): ExemplaireLivre
     {
-        $exemplaire = new ExemplaireLivre($livre);
+        // ✅ composition : on passe par la factory (constructeur privé)
+        $exemplaire = ExemplaireLivre::creer($livre);
+
         $this->exemplaires[] = $exemplaire;
 
         $this->logger->info(sprintf(
@@ -55,58 +35,5 @@ class Bibliotheque
         return $exemplaire;
     }
 
-    public function rechercherParAuteur(string $nomAuteur): array
-    {
-        $resultats = [];
-
-        foreach ($this->exemplaires as $exemplaire) {
-            $livre = $exemplaire->getLivre();
-
-            if ($livre->getAuteur()->getNom() === $nomAuteur) {
-                $resultats[] = $exemplaire;
-            }
-        }
-
-        return $resultats;
-    }
-
-    public function rechercherParCategorie(string $libelleCategorie): array
-    {
-        $resultats = [];
-
-        foreach ($this->exemplaires as $exemplaire) {
-            $livre = $exemplaire->getLivre();
-
-            if ($livre->getCategorie()->getLibelle() === $libelleCategorie) {
-                $resultats[] = $exemplaire;
-            }
-        }
-
-        return $resultats;
-    }
-    
-    public function afficherTousLesLivresDisponibles(): void
-    {
-        foreach ($this->exemplaires as $exemplaire) {
-            if ($exemplaire->estDisponible()) {
-                echo $exemplaire->getLivre()->getDescription() . '<br>';
-            }
-        }
-    }
-
-    public function emprunterExemplaire(ExemplaireLivre $exemplaire): void
-    {
-        if (! $exemplaire->estDisponible()) {
-            return;
-        }
-
-        $exemplaire->marquerEmprunte();
-
-        $this->logger->info(sprintf(
-            'Emprunt d’un exemplaire du livre "%s" dans la bibliothèque "%s".',
-            $exemplaire->getLivre()->getTitre(),
-            $this->nom
-        ));
-    }
+    // ... le reste de tes méthodes peut rester identique
 }
-

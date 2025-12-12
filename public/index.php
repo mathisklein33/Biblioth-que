@@ -1,22 +1,34 @@
 ﻿<?php
 
+declare(strict_types=1);
 
-require_once 'autoload.php';
+namespace App\Service;
 
-use App\Bibliotheque;
+use App\Entity\Livre;
+use App\Entity\ExemplaireLivre;
+use App\Logger\LoggerInterface;
 
-$livre1 = new Livre("1984", new Auteur("George Orwell"));
-$livre2 = new Livre("Les Misérables", new Auteur("Victor Hugo"));
+class Bibliotheque
+{
+    private string $nom;
+    private array $exemplaires = [];
+    private LoggerInterface $logger;
 
-$biblio = new Bibliotheque();
-$biblio->ajouterLivre($livre1);
-$biblio->ajouterLivre($livre2);
+    public function __construct(string $nom, LoggerInterface $logger)
+    {
+        $this->nom = $nom;
+        $this->logger = $logger;
+    }
 
-echo "<h3>Tous les livres :</h3>";
-$biblio->afficherTous();
+    public function ajouterLivre(Livre $livre): ExemplaireLivre
+    {
+        $exemplaire = ExemplaireLivre::creer($livre);
+        $this->exemplaires[] = $exemplaire;
 
-echo "<h3>Livres de Victor Hugo :</h3>";
-$biblio->afficherParAuteur("Victor Hugo");
+        $this->logger->info(
+            'Ajout du livre : ' . $livre->getTitre()
+        );
 
-
-
+        return $exemplaire;
+    }
+}
