@@ -1,5 +1,5 @@
 ﻿<?php
-declare(strict_types=1);
+
 
 require_once __DIR__ . '/../autoload.php';
 
@@ -10,10 +10,12 @@ use App\Entity\Utilisateur;
 use App\Logger\EchoLogger;
 use App\Service\Bibliotheque;
 use App\AucunExemplaireDisponibleException;
+use App\Entity\AuteurSimple;
 
 // 1) Créer plusieurs auteurs, catégories, livres
-$auteur1 = new Auteur('Victor Hugo');
-$auteur2 = new Auteur('Jules Verne');
+$auteur1 = new AuteurSimple('Victor Hugo');
+$auteur2 = new AuteurSimple('Jules Verne');
+
 
 $categorieRoman = new Categorie('Roman');
 $categorieSF = new Categorie('Science-fiction');
